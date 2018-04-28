@@ -33,9 +33,11 @@ class TodoListViewController: UITableViewController {
         
        
         
-        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-            itemArray = items
-        }
+       if let itemsObject = defaults.object(forKey: "TodoListArray") as? Data {
+        
+            itemArray = NSKeyedUnarchiver.unarchiveObject(with: itemsObject) as! [Item]
+       
+       }
 
     }
 
@@ -66,6 +68,8 @@ class TodoListViewController: UITableViewController {
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         tableView.reloadData()
+        defaults.set(NSKeyedArchiver.archivedData(withRootObject: self.itemArray), forKey: "TodoListArray")
+        defaults.synchronize()
         
         tableView.deselectRow(at: indexPath, animated: true)
         
@@ -85,7 +89,10 @@ class TodoListViewController: UITableViewController {
             let newItem = Item()
             newItem.title = textFiled.text!
             self.itemArray.append(newItem)
-            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
+            self.defaults.set(NSKeyedArchiver.archivedData(withRootObject: self.itemArray), forKey: "TodoListArray")
+            self.defaults.synchronize()
+            
             self.tableView.reloadData()
             
         }
