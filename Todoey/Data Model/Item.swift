@@ -7,26 +7,28 @@
 //
 
 import Foundation
-
-class Item: NSObject, NSCoding {
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.done, forKey: "done")
-        
-        aCoder.encode(self.title, forKey: "title")
-    }
+class Item: Codable {
     
-    required convenience init?(coder aDecoder: NSCoder) {
-        self.init()
-        
-       self.title = aDecoder.decodeObject(forKey: "title") as? String
-        self.done = aDecoder.decodeBool(forKey: "done")
-    }
-    
-    override init() {
-        
-        
-    }
-    
+ //For userdefaults Custom Object
+//class Item: NSObject, NSCoding {
+//    func encode(with aCoder: NSCoder) {
+//        aCoder.encode(self.done, forKey: "done")
+//
+//        aCoder.encode(self.title, forKey: "title")
+//    }
+//
+//    required convenience init?(coder aDecoder: NSCoder) {
+//        self.init()
+//
+//       self.title = aDecoder.decodeObject(forKey: "title") as? String
+//        self.done = aDecoder.decodeBool(forKey: "done")
+//    }
+//
+//    override init() {
+//
+//
+//    }
+//
     var title : String! = ""
     var done = false
 }
